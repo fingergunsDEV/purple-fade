@@ -1,0 +1,78 @@
+/* Import Google Fonts for DIY Punk Vibe */
+@import url("https://fonts.googleapis.com/css2?family=Special+Elite&family=Roboto+Slab:wght@400;700&display=swap");
+
+/* Tailwind CSS Directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	body {
+		@apply font-sans leading-relaxed;
+		/* Background with Venice Beach mural */
+		background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)),
+			url("https://assets.onecompiler.app/42kgg76bk/43g39jw2p/Screenshot_20250427-034156.png")
+				center/cover no-repeat fixed;
+		/* Custom colors for gritty punk aesthetic */
+		--color-grit-red: #d90429;
+		--color-electric-blue: #00f5d4;
+		--color-dark-black: #121212;
+		--color-off-white: #f5f5f5;
+		--color-checker-gray: #333333;
+	}
+	h1,
+	h2,
+	h3 {
+		@apply font-['Special_Elite'] tracking-wider uppercase;
+		color: var(--color-grit-red);
+		text-shadow: 3px 3px 5px rgba(0, 245, 212, 0.3);
+	}
+	a {
+		@apply text-electric-blue hover:text-grit-red transition-colors duration-200;
+	}
+	.container {
+		@apply max-w-6xl mx-auto px-4;
+	}
+	.section {
+		@apply py-16;
+		/* Scratched texture for sections */
+		background: linear-gradient(rgba(18, 18, 18, 0.85), rgba(18, 18, 18, 0.85)),
+			url("https://www.transparenttextures.com/patterns/45-degree-fabric-dark.png");
+	}
+	.cta-button {
+		@apply inline-block px-6 py-2 bg-grit-red text-off-white font-['Special_Elite'] uppercase tracking-wider border-4 border-electric-blue hover:bg-electric-blue hover:text-dark-black hover:border-grit-red transition-all duration-300 transform hover:rotate-2;
+	}
+}
+
+@layer components {
+	.social-icon {
+		@apply w-10 h-10 transition-transform transform hover:scale-125 hover:drop-shadow-[0_0_8px_rgba(217,4,41,0.8)];
+	}
+	.track-item,
+	.crew-member,
+	.video-item {
+		@apply border-4 border-electric-blue bg-dark-black;
+		box-shadow: 0 0 20px rgba(0, 245, 212, 0.4);
+		clip-path: polygon(0 0, 95% 0, 100% 5%, 100% 100%, 5% 100%, 0 95%);
+	}
+	.checkerboard {
+		background: linear-gradient(
+				45deg,
+				#000 25%,
+				transparent 25%,
+				transparent 75%,
+				#000 75%,
+				#000
+			),
+			linear-gradient(45deg, #000 25%, #333 25%, #333 75%, #000 75%, #000);
+		background-size: 20px 20px;
+	}
+}
+nav {
+	display: flex;
+}
+
+.site-header {
+	display: grid;
+	align-items: right;
+}
