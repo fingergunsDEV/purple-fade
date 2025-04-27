@@ -1,108 +1,335 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FlowState - EDM Artist</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Purple Fade - Official Website</title>
+	<link rel="stylesheet" href="styles.css">
+	<!-- Tailwind CSS CDN -->
+	<script src="https://cdn.tailwindcss.com"></script>
+	<!-- React 18 for WebsimSocket Integration -->
+	<script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
+	<script type="importmap">
+		{
+          "imports": {
+            "react": "https://cdn.jsdelivr.net/npm/react@18/index.js",
+            "react-dom": "https://cdn.jsdelivr.net/npm/react-dom@18/index.js"
+          }
+        }
+    </script>
+	<style type="text/tailwindcss">
+		@layer base {
+            body {
+                @apply bg-black text-white font-sans leading-relaxed;
+                /* Define custom colors for easier use and branding */
+                --color-purple: #7D3C98;
+                --color-white: #FFFFFF;
+                --color-black: #000000;
+            }
+            h1, h2, h3 {
+                 /* Placeholder for punk-style heading font */
+                font-family: 'Arial Black', sans-serif; /* Replace with actual punk font later */
+                @apply text-white;
+            }
+            a {
+                @apply text-white hover:text-purple-400 transition-colors duration-200;
+            }
+            .container {
+                @apply max-w-6xl mx-auto px-4;
+            }
+            .section {
+                @apply py-16;
+            }
+             .cta-button {
+                @apply inline-block px-8 py-3 bg-purple-700 text-white font-bold uppercase tracking-wide rounded-full hover:bg-purple-800 transition-colors duration-300;
+            }
+        }
+        @layer components {
+             .social-icon {
+                @apply w-8 h-8 transition-transform transform hover:scale-125;
+            }
+        }
+    </style>
 </head>
-<body>
-    <canvas id="particle-canvas"></canvas>
-    <button id="theme-toggle" class="theme-toggle-button">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
-        </svg>
-    </button>
-    <header class="hero">
-        <div class="hero-background">
-        </div>
-        <div class="hero-content">
-            <h1>FlowState</h1>
-            <p class="tagline">Los Angeles Based EDM Artist</p>
-            <a href="#music" class="cta-button">Listen Now</a>
-        </div>
-    </header>
-    <section id="about" class="section">
-        <div class="container">
-            <h2>About FlowState</h2>
-            <p>FlowState is an electronic music artist hailing from the vibrant scene of Los Angeles, California. Known for intricate sound design, driving rhythms, and captivating melodies, FlowState creates immersive sonic journeys that bridge the gap between euphoric highs and introspective depths. Drawing inspiration from the energy of the LA nights and the vastness of the digital frontier, FlowState's music is a testament to the power of sound to transport the listener to another dimension.</p>
-        </div>
-    </section>
-    <section id="music" class="section dark-section">
-        <div class="container">
-            <h2>Music</h2>
-            <div class="music-links">
-                <p>Listen to FlowState's tracks on your favorite platforms:</p>
-                <ul>
-                    <li><a href="#" class="link-button">Spotify</a></li>
-                    <li><a href="#" class="link-button">Apple Music</a></li>
-                    <li><a href="#" class="link-button">SoundCloud</a></li>
-                    <li><a href="#" class="link-button">Bandcamp</a></li>
-                </ul>
-            </div>
-            <div class="music-embeds">
-                <h3>Featured Tracks & Players</h3>
-                <div class="embed-container">
-                    <iframe src="https://open.spotify.com/embed/artist/exampleartistid?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Spotify Embed"></iframe>
-                </div>
-                <div class="embed-container">
-                    <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/exampletrackid&color=%23ff005d&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true" title="SoundCloud Embed"></iframe>
-                </div>
-                <div class="embed-container">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/examplevideoid" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                </div>
-                <p class="placeholder-note">Note: Replace the placeholder URLs above with FlowState's actual embed codes.</p>
-            </div>
-        </div>
-    </section>
-    <section id="player" class="section">
-        <div class="container">
-            <h2>Audio Player</h2>
-            <p>Upload your own audio file to visualize the spectrum:</p>
-            <div class="audio-player-container">
-                <input type="file" id="audio-file-input" accept="audio/*">
-                <label for="audio-file-input" class="custom-file-upload link-button">
-                    Choose Audio File
-                </label>
-                <audio id="audio-element" controls></audio>
-                <canvas id="spectrum-analyzer-canvas"></canvas>
-                <p class="placeholder-note" id="file-name-display"></p>
-            </div>
-        </div>
-    </section>
-    <section id="events" class="section">
-        <div class="container">
-            <h2>Events</h2>
-            <p>No upcoming events scheduled at the moment. Stay tuned for tour dates and performances in Los Angeles and beyond!</p>
-        </div>
-    </section>
-    <section id="contact" class="section dark-section">
-        <div class="container">
-            <h2>Connect</h2>
-            <p>Follow FlowState on social media and get in touch:</p>
-            <div class="social-links">
-                <ul>
-                    <li><a href="#" class="link-button">Instagram</a></li>
-                    <li><a href="#" class="link-button">Twitter</a></li>
-                    <li><a href="#" class="link-button">Facebook</a></li>
-                    <li><a href="#" class="link-button">Email</a></li>
-                </ul>
-            </div>
-            <div class="facebook-embed">
-                <h3>Facebook Feed</h3>
-                <div class="embed-container">
-                    <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Ffacebook&tabs=timeline&width=340&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" width="340" height="500" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" title="Facebook Feed Embed"></iframe>
-                </div>
-                <p class="placeholder-note">Note: Replace the placeholder URL above with FlowState's actual Facebook Page Plugin code.</p>
-            </div>
-        </div>
-    </section>
-    <footer>
-        <div class="container">
-            <p>&copy; 2023 FlowState. All rights reserved.</p>
-        </div>
-    </footer>
-    <script src="script.js"></script>
+
+<body class="bg-black text-white font-sans leading-relaxed" style="">
+	<header class="site-header bg-black text-white py-4 shadow-lg fixed w-full top-0 z-50">
+
+		<nav class="site-nav" style="display:flex;align-items:center;margin:0 auto;">
+			<ul class="flex space-x-6">
+				<li><a href="#home" class="hover:text-purple-400 transition-colors duration-200">Home</a></li>
+				<li><a href="#music" class="hover:text-purple-400 transition-colors duration-200">Music</a></li>
+				<li><a href="#videos" class="hover:text-purple-400 transition-colors duration-200">Videos</a></li>
+				<li><a href="#crew" class="hover:text-purple-400 transition-colors duration-200">Crew</a></li>
+				<li><a href="#tour" class="hover:text-purple-400 transition-colors duration-200">Tour</a></li>
+				<li><a href="#fanclub" class="hover:text-purple-400 transition-colors duration-200">Fan Club</a></li>
+				<li><a href="#follow" class="hover:text-purple-400 transition-colors duration-200">Follow Us</a></li>
+			</ul>
+		</nav>
+	</header>
+
+	<main class="pt-16">
+		<section id="home" class="section hero-section relative bg-cover bg-center h-screen flex items-center justify-center" style="background-image: url('https://www.instagram.com/p/DIzt1i_TCth/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==');">
+			<div class="hero-overlay absolute inset-0 bg-black opacity-70"></div>
+			<div class="container hero-content text-center z-10">
+				<h1 class="text-6xl font-bold mb-4 drop-shadow-lg"><img src="https://assets.onecompiler.app/42kgg76bk/43g39jw2p/Purple%20Fade%20transparent%20logo.png" style="width:25rem;align-items:center;margin:0 auto;"></h1>
+				<p class="band-bio text-lg mb-8 max-w-2xl mx-auto">
+					Straight outta Venice Beach, Purple Fade is the sound of rebellion wrapped in static and soaked in purple light. We play loud, we play fast, and we don't care what you think. This is punk. This is now. Get in or get lost.
+				</p>
+				<a href="#music" class="cta-button">Listen Now</a>
+			</div>
+		</section>
+
+		<section id="music" class="section music-section bg-gray-900">
+			<div class="container">
+				<h2 class="text-4xl font-bold text-center mb-12">Listen Up</h2>
+				<div class="music-player bg-gray-800 p-8 rounded-lg shadow-xl">
+					<div class="embed-placeholder mb-8">
+						<p class="text-lg mb-4">Listen on Spotify/Apple Music:</p>
+						<!-- Example embed link structure -->
+						<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/YOUR_ARTIST_ID?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+					</div>
+					<h3 class="text-3xl font-bold mb-6">Featured Tracks</h3>
+					<div class="track-list space-y-6">
+						<div class="track-item flex items-center bg-gray-700 p-4 rounded-lg">
+							<img src="https://via.placeholder.com/80x80/7D3C98/FFFFFF?text=Track+1+Art" alt="Track 1 Art" class="album-art w-16 h-16 rounded mr-6">
+							<div class="track-info flex-grow">
+								<span class="track-title text-xl font-semibold block">Track Title 1</span>
+								<span class="track-album text-gray-400">Album Name 1</span>
+							</div>
+							<button class="play-button text-white hover:text-purple-400">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8">
+									<path d="M8 5v14l11-7z" />
+								</svg>
+							</button>
+							<audio src="YOUR_TRACK_1_URL.mp3"></audio>
+						</div>
+						<div class="track-item flex items-center bg-gray-700 p-4 rounded-lg">
+							<img src="https://via.placeholder.com/80x80/7D3C98/FFFFFF?text=Track+2+Art" alt="Track 2 Art" class="album-art w-16 h-16 rounded mr-6">
+							<div class="track-info flex-grow">
+								<span class="track-title text-xl font-semibold block">Track Title 2</span>
+								<span class="track-album text-gray-400">Album Name 2</span>
+							</div>
+							<button class="play-button text-white hover:text-purple-400">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8">
+									<path d="M8 5v14l11-7z" />
+								</svg>
+							</button>
+							<audio src="YOUR_TRACK_2_URL.mp3"></audio>
+						</div>
+						<!-- Add more tracks as needed -->
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="videos" class="section videos-section bg-black">
+			<div class="container">
+				<h2 class="text-4xl font-bold text-center mb-12">Watch Us Ignite</h2>
+				<div class="video-grid grid grid-cols-1 md:grid-cols-2 gap-8">
+					<div class="video-item bg-gray-900 rounded-lg shadow-xl overflow-hidden">
+						<div class="relative w-full" style="padding-top: 56.25%;">
+							<!-- 16:9 Aspect Ratio -->
+							<iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/YOUR_VIDEO_ID_1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+						</div>
+						<div class="p-6">
+							<div class="video-title text-xl font-semibold mb-3">Video Title 1</div>
+							<a href="https://www.youtube.com/watch?v=YOUR_VIDEO_ID_1" target="_blank" class="watch-on-youtube text-purple-400 hover:underline">Watch on YouTube</a>
+						</div>
+					</div>
+					<div class="video-item bg-gray-900 rounded-lg shadow-xl overflow-hidden">
+						<div class="relative w-full" style="padding-top: 56.25%;">
+							<!-- 16:9 Aspect Ratio -->
+							<iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/YOUR_VIDEO_ID_2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+						</div>
+						<div class="p-6">
+							<div class="video-title text-xl font-semibold mb-3">Video Title 2</div>
+							<a href="https://www.youtube.com/watch?v=YOUR_VIDEO_ID_2" target="_blank" class="watch-on-youtube text-purple-400 hover:underline">Watch on YouTube</a>
+						</div>
+					</div>
+					<!-- Add more video items as needed -->
+				</div>
+			</div>
+		</section>
+
+		<section id="crew" class="section crew-section bg-gray-800">
+			<div class="container">
+				<h2 class="text-4xl font-bold text-center mb-12">Meet The Crew</h2>
+				<div class="crew-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 text-center">
+					<div class="crew-member bg-gray-900 p-6 rounded-lg shadow-xl">
+						<img src="https://www.instagram.com/p/DHJwqXmSbdl/?utm_source=ig_embed&amp;utm_campaign=loading" alt="Dan Lackey" class="w-40 h-auto rounded-md mx-auto mb-4">
+						<h3 class="text-xl font-semibold mb-1">Dan Lackey</h3>
+						<p class="text-purple-400">Singer/Frontman</p>
+					</div>
+					<div class="crew-member bg-gray-900 p-6 rounded-lg shadow-xl">
+						<img src="https://via.placeholder.com/200x250/7D3C98/FFFFFF?text=Alex+Chaos+|+Guitar" alt="Alex Chaos" class="w-40 h-auto rounded-md mx-auto mb-4">
+						<h3 class="text-xl font-semibold mb-1">Alex Chaos</h3>
+						<p class="text-purple-400">Guitar</p>
+					</div>
+					<div class="crew-member bg-gray-900 p-6 rounded-lg shadow-xl">
+						<img src="https://via.placeholder.com/200x250/7D3C98/FFFFFF?text=Sid+Vicious+|+Bass" alt="Sid Vicious" class="w-40 h-auto rounded-md mx-auto mb-4">
+						<h3 class="text-xl font-semibold mb-1">Sid Vicious</h3>
+						<p class="text-purple-400">Bass</p>
+					</div>
+					<div class="crew-member bg-gray-900 p-6 rounded-lg shadow-xl">
+						<img src="https://via.placeholder.com/200x250/7D3C98/FFFFFF?text=Tommy+Bomb+|+Drums" alt="Tommy Bomb" class="w-40 h-auto rounded-md mx-auto mb-4">
+						<h3 class="text-xl font-semibold mb-1">Tommy Bomb</h3>
+						<p class="text-purple-400">Drums</p>
+					</div>
+					<blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/DHJwqXmSbdl/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
+						<div style="padding:16px;"> <a href="https://www.instagram.com/p/DHJwqXmSbdl/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank">
+								<div style=" display: flex; flex-direction: row; align-items: center;">
+									<div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div>
+									<div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;">
+										<div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;"></div>
+										<div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div>
+									</div>
+								</div>
+								<div style="padding: 19% 0;"></div>
+								<div style="display:block; height:50px; margin:0 auto 12px; width:50px;"><svg width="50px" height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+										<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+											<g transform="translate(-511.000000, -20.000000)" fill="#000000">
+												<g>
+													<path d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631"></path>
+												</g>
+											</g>
+										</g>
+									</svg></div>
+								<div style="padding-top: 8px;">
+									<div style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">View this post on Instagram</div>
+								</div>
+								<div style="padding: 12.5% 0;"></div>
+								<div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;">
+									<div>
+										<div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);"></div>
+										<div style="background-color: #F4F4F4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;"></div>
+										<div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);"></div>
+									</div>
+									<div style="margin-left: 8px;">
+										<div style=" background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;"></div>
+										<div style=" width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg)"></div>
+									</div>
+									<div style="margin-left: auto;">
+										<div style=" width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);"></div>
+										<div style=" background-color: #F4F4F4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);"></div>
+										<div style=" width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);"></div>
+									</div>
+								</div>
+								<div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;">
+									<div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;"></div>
+									<div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div>
+								</div>
+							</a>
+							<p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/p/DHJwqXmSbdl/?utm_source=ig_embed&amp;utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">A post shared by Dan Lackey (@danlackey12)</a></p>
+						</div>
+					</blockquote>
+					<script async src="//www.instagram.com/embed.js"></script>
+					<div class="crew-member bg-gray-900 p-6 rounded-lg shadow-xl">
+						<img src="https://via.placeholder.com/200x250/7D3C98/FFFFFF?text=Extra+Member+%7C+Role" alt="Extra Member" class="w-40 h-auto rounded-md mx-auto mb-4">
+						<h3 class="text-xl font-semibold mb-1">Extra Member Name</h3>
+						<p class="text-purple-400">Role</p>
+					</div>
+					-->
+				</div>
+			</div>
+		</section>
+
+		<section id="tour" class="section tour-section bg-gray-900 text-center">
+			<div class="container">
+				<h2 class="text-4xl font-bold mb-6">Catch The Chaos</h2>
+				<p class="text-lg text-gray-300">Tour dates coming soon... Stay tuned!</p>
+				<!-- Placeholder for future tour dates -->
+			</div>
+		</section>
+
+		<section id="fanclub" class="section fanclub-section bg-black">
+			<div class="container">
+				<h2 class="text-4xl font-bold text-center mb-8">Join The Faders</h2>
+				<div class="bg-gray-900 p-8 rounded-lg shadow-xl max-w-md mx-auto">
+					<p class="text-lg mb-6 text-gray-300">Become an official Fader and get:</p>
+					<ul class="list-disc list-inside space-y-3 mb-8 text-gray-300">
+						<li>Exclusive first listens to new tracks</li>
+						<li>VIP access opportunities for concerts</li>
+						<li>Merch giveaways and discounts</li>
+						<li>Access to exclusive content</li>
+					</ul>
+					<div id="fan-club-form-root">
+						<!-- React Fan Club Form will render here -->
+						<!-- Basic Placeholder Form -->
+						<form class="space-y-4">
+							<div>
+								<label for="name" class="block text-sm font-medium text-gray-400">Name</label>
+								<input type="text" id="name" name="name" class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+							</div>
+							<div>
+								<label for="email" class="block text-sm font-medium text-gray-400">Email</label>
+								<input type="email" id="email" name="email" class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+							</div>
+							<button type="submit" class="w-full cta-button">Sign Me Up!</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="follow" class="section follow-section bg-gray-900 text-center">
+			<div class="container">
+				<h2 class="text-4xl font-bold mb-8">Follow Us Everywhere</h2>
+				<div class="social-links flex justify-center space-x-6">
+					<a href="YOUR_SPOTIFY_URL" target="_blank" class="social-icon spotify text-white hover:text-green-500">
+						<!-- Spotify Icon SVG -->
+						<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Spotify_icon.svg/512px-Spotify_icon.svg.png?20220821125323" style="width5rem;">
+					</a>
+					<a href="YOUR_APPLE_MUSIC_URL" target="_blank" class="social-icon apple-music text-white hover:text-red-500">
+						<!-- Apple Music Icon SVG -->
+						<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Apple_Music_icon.svg/2048px-Apple_Music_icon.svg.png" style="width5rem;">
+					</a>
+					<a href="YOUR_YOUTUBE_URL" target="_blank" class="social-icon youtube text-white hover:text-red-600">
+						<!-- YouTube Icon SVG -->
+						<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Youtube_Music_icon.svg/512px-Youtube_Music_icon.svg.png?20230802004652" style="width5rem;">
+						</svg>
+					</a>
+					<a href="YOUR_INSTAGRAM_URL" target="_blank" class="social-icon instagram text-white hover:text-pink-500">
+						<!-- Instagram Icon SVG -->
+						<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/2048px-Instagram_logo_2016.svg.png" style="width5rem;">
+					</a>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<footer class="site-footer bg-black text-gray-400 py-8">
+		<div class="container footer-container flex flex-col md:flex-row justify-between items-center text-sm">
+			<div class="footer-logo text-lg font-bold text-purple-400 mb-4 md:mb-0"><img src="https://assets.onecompiler.app/42kgg76bk/43g39jw2p/Screenshot_20250427-035938%20(1).jpg" style="width:15rem;"></div>
+			<div class="footer-links space-x-4 mb-4 md:mb-0">
+				<a href="#" class="hover:text-purple-400">Privacy Policy (Placeholder)</a>
+				<a href="#" class="hover:text-purple-400">Contact (Placeholder)</a>
+			</div>
+			<div class="footer-social flex space-x-4">
+				<div class="social-links flex justify-center space-x-6">
+					<a href="YOUR_SPOTIFY_URL" target="_blank" class="social-icon spotify text-white hover:text-green-500">
+						<!-- Spotify Icon SVG -->
+						<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Spotify_icon.svg/512px-Spotify_icon.svg.png?20220821125323" style="width5rem;">
+					</a>
+					<a href="YOUR_APPLE_MUSIC_URL" target="_blank" class="social-icon apple-music text-white hover:text-red-500">
+						<!-- Apple Music Icon SVG -->
+						<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Apple_Music_icon.svg/2048px-Apple_Music_icon.svg.png" style="width5rem;">
+					</a>
+					<a href="YOUR_YOUTUBE_URL" target="_blank" class="social-icon youtube text-white hover:text-red-600">
+						<!-- YouTube Icon SVG -->
+						<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Youtube_Music_icon.svg/512px-Youtube_Music_icon.svg.png?20230802004652" style="width5rem;">
+						</svg>
+					</a>
+					<a href="YOUR_INSTAGRAM_URL" target="_blank" class="social-icon instagram text-white hover:text-pink-500">
+						<!-- Instagram Icon SVG -->
+						<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/2048px-Instagram_logo_2016.svg.png" style="width5rem;">
+					</a>
+				</div>
+			</div>
+	</footer>
 </body>
+
 </html>
