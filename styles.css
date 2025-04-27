@@ -10,7 +10,7 @@
 	body {
 		@apply font-sans leading-relaxed;
 		/* Background with Venice Beach mural */
-		background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)),
+		background: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)),
 			url("https://assets.onecompiler.app/42kgg76bk/43g39jw2p/Screenshot_20250427-034156.png")
 				center/cover no-repeat fixed;
 		/* Custom colors for gritty punk aesthetic */
